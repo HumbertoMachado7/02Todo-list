@@ -1,9 +1,10 @@
 const taskInput = document.getElementById('taskInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const taskList = document.getElementById('taskList');
+const taskDateTime = document.getElementById('taskDateTime'); 
 const notificationSound = document.getElementById('notificationSound');
 const deleteSound = document.getElementById('deleteSound');
-const modifySound = document.getElementById('modifySound'); 
+const editSound = document.getElementById('modifySound');  // Renamed modifySound to editSound
 
 addTaskBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keyup', (event) => {
@@ -14,26 +15,25 @@ taskInput.addEventListener('keyup', (event) => {
 
 function addTask() {
     const taskText = taskInput.value.trim();
+    const taskDateTimeValue = taskDateTime.value; 
 
     if (taskText !== '') {
-        const now = new Date();
-        const defaultDateTime = now.toISOString().slice(0, 16); // Format: YYYY-MM-DDTHH:mm
-
         const newTask = document.createElement('li');
         newTask.innerHTML = `
             <input type="checkbox">
             <span>${taskText}</span>
-            <input type="datetime-local" value="${defaultDateTime}">
-            <button class="delete-btn">Delete</button>
-            <button class="modify-btn">Modify</button>
+            <span class="due-date">${taskDateTimeValue}</span> 
+            <button class="delete-btn"></button>
+            <button class="edit-btn"></button>
         `;
 
         taskList.appendChild(newTask);
 
         taskInput.value = '';
+        taskDateTime.value = ''; 
 
         newTask.querySelector('.delete-btn').addEventListener('click', deleteTask);
-        newTask.querySelector('.modify-btn').addEventListener('click', modifyTask); 
+        newTask.querySelector('.edit-btn').addEventListener('click', editTask);  // Changed to editTask
         newTask.querySelector('input[type="checkbox"]').addEventListener('change', toggleTaskCompletion);
 
         notificationSound.play();
@@ -46,17 +46,16 @@ function deleteTask(event) {
     deleteSound.play();
 }
 
-function modifyTask(event) {
-  const taskItem = event.target.closest('li');
-  const taskSpan = taskItem.querySelector('span');
-  const newTaskText = prompt('Edit Task:', taskSpan.textContent);
+function editTask(event) { // Renamed modifyTask to editTask
+    const taskItem = event.target.closest('li');
+    const taskSpan = taskItem.querySelector('span');
+    const newTaskText = prompt('Edit Task:', taskSpan.textContent);
 
-  if (newTaskText !== null) {
-    taskSpan.textContent = newTaskText.trim();
-    modifySound.play();
-  }
+    if (newTaskText !== null) {
+        taskSpan.textContent = newTaskText.trim();
+        editSound.play(); // Renamed modifySound to editSound
+    }
 }
-
 
 function toggleTaskCompletion(event) {
     const taskSpan = event.target.nextElementSibling;

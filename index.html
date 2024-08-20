@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do List</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
 </head>
 <body>
-  <div class="container">
-    <h1 class="title">To do list</h1>
-    <div class="input-area">
-      <input type="text" id="taskInput" placeholder="Add a new task...">
-      <button id="addTaskBtn">Add Task</button>
+    <div class="container">
+        <h1 class="title">To-Do List</h1>
+        <div class="input-area">
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <input type="datetime-local" id="taskDateTime" value="">
+            <button id="addTaskBtn">Add Task</button>
+        </div>
+        <ul id="taskList"></ul>
     </div>
-    <ul id="taskList"></ul>
-  </div>
-  <footer class="footer">
-    <p>Developed by HDEM 20/08/2024</p>
-  </footer>
-  <audio id="notificationSound" src="assets/audio/notification.mp3"></audio>
-  <audio id="deleteSound" src="assets/audio/delete.mp3"></audio>
-  <audio id="modifySound" src="assets/audio/modify.mp3"></audio>
-  <script src="script.js"></script> 
+    <footer class="footer">
+        <p>Developed by HDEM 20/08/2024</p>
+    </footer>
+    <audio id="notificationSound" src="assets/audio/notification.mp3"></audio>
+    <audio id="deleteSound" src="assets/audio/delete.mp3"></audio>
+    <audio id="editSound" src="assets/audio/modify.mp3"></audio> 
+    <script src="script.js"></script> 
 </body>
 </html>
