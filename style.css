@@ -25,13 +25,13 @@ body {
   margin-bottom: 20px;
 }
 
-#taskInput, #taskDateTime { /* Added styling for taskDateTime */
+#taskInput, #taskDateTime {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  margin-right: 10px; 
+  margin-right: 10px;
 }
 
 #addTaskBtn {
@@ -72,16 +72,26 @@ body {
 
 #taskList li button {
   margin-left: 10px;
-  background: none;
   border: none;
   cursor: pointer;
 }
 
-.delete-btn { background-image: url("assets/images/icons/delete.svg"); width: 20px; height: 20px; }
-.edit-btn { background-image: url("assets/images/icons/edit.svg"); width: 20px; height: 20px; }
+.delete-btn {
+  background: url("assets/images/icons/delete.svg") no-repeat center;
+  background-size: contain; /* Added to adjust image size */
+  width: 20px; 
+  height: 20px; 
+}
+
+.edit-btn {
+  background: url("assets/images/icons/edit.svg") no-repeat center;
+  background-size: contain; /* Added to adjust image size */
+  width: 20px; 
+  height: 20px; 
+}
 
 .due-date {
   font-size: 12px;
   color: #777;
-  margin-left: auto; 
+  margin-left: auto;
 }

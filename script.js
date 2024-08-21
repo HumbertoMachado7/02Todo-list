@@ -4,60 +4,70 @@ const taskList = document.getElementById('taskList');
 const taskDateTime = document.getElementById('taskDateTime'); 
 const notificationSound = document.getElementById('notificationSound');
 const deleteSound = document.getElementById('deleteSound');
-const editSound = document.getElementById('modifySound');  // Renamed modifySound to editSound
+const editSound = document.getElementById('editSound'); 
 
 addTaskBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keyup', (event) => {
-    if (event.key === 'Enter') {
-        addTask();
-    }
+  if (event.key === 'Enter') {
+    addTask();
+  }
 });
 
 function addTask() {
-    const taskText = taskInput.value.trim();
-    const taskDateTimeValue = taskDateTime.value; 
+  const taskText = taskInput.value.trim();
+  const taskDateTimeValue = taskDateTime.value;
 
-    if (taskText !== '') {
-        const newTask = document.createElement('li');
-        newTask.innerHTML = `
-            <input type="checkbox">
-            <span>${taskText}</span>
-            <span class="due-date">${taskDateTimeValue}</span> 
-            <button class="delete-btn"></button>
-            <button class="edit-btn"></button>
-        `;
+  if (taskText !== '') {
+    const newTask = document.createElement('li');
+    newTask.innerHTML = `
+        <input type="checkbox">
+        <span>${taskText}</span>
+        <span class="due-date">${taskDateTimeValue}</span> 
+        <button class="delete-btn"></button>
+        <button class="edit-btn"></button>
+    `;
 
-        taskList.appendChild(newTask);
+    taskList.appendChild(newTask);
 
-        taskInput.value = '';
-        taskDateTime.value = ''; 
+    taskInput.value = '';
+    taskDateTime.value = '';
 
-        newTask.querySelector('.delete-btn').addEventListener('click', deleteTask);
-        newTask.querySelector('.edit-btn').addEventListener('click', editTask);  // Changed to editTask
-        newTask.querySelector('input[type="checkbox"]').addEventListener('change', toggleTaskCompletion);
+    newTask.querySelector('.delete-btn').addEventListener('click', deleteTask);
+    newTask.querySelector('.edit-btn').addEventListener('click', editTask); 
+    newTask.querySelector('input[type="checkbox"]').addEventListener('change', toggleTaskCompletion);
 
-        notificationSound.play();
-    }
+    notificationSound.play();
+  }
 }
 
 function deleteTask(event) {
-    const taskItem = event.target.closest('li');
-    taskList.removeChild(taskItem);
-    deleteSound.play();
+  const taskItem = event.target.closest('li');
+  taskList.removeChild(taskItem);
+  deleteSound.play();
 }
 
-function editTask(event) { // Renamed modifyTask to editTask
-    const taskItem = event.target.closest('li');
-    const taskSpan = taskItem.querySelector('span');
-    const newTaskText = prompt('Edit Task:', taskSpan.textContent);
+function editTask(event) {
+  const taskItem = event.target.closest('li');
+  const taskSpan = taskItem.querySelector('span');
+  const newTaskText = prompt('Edit Task:', taskSpan.textContent);
 
-    if (newTaskText !== null) {
-        taskSpan.textContent = newTaskText.trim();
-        editSound.play(); // Renamed modifySound to editSound
-    }
+  if (newTaskText !== null) {
+    taskSpan.textContent = newTaskText.trim();
+    editSound.play(); 
+  }
 }
 
 function toggleTaskCompletion(event) {
-    const taskSpan = event.target.nextElementSibling;
-    taskSpan.classList.toggle('completed');
+  const taskSpan = event.target.nextElementSibling;
+  taskSpan.classList.toggle('completed');
 }
+
+// Add event listener for Delete key press
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Delete') {
+    const checkedTasks = document.querySelectorAll('#taskList li input[type="checkbox"]:checked');
+    checkedTasks.forEach(task => {
+      deleteTask({ target: task.parentNode.querySelector('.delete-btn') }); // Simulate click on delete button
+    });
+  }
+});
