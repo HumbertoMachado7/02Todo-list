@@ -1,10 +1,19 @@
 const taskInput = document.getElementById('taskInput');
 const addTaskBtn = document.getElementById('addTaskBtn');
 const taskList = document.getElementById('taskList');
-const taskDateTime = document.getElementById('taskDateTime'); 
+const taskDateTime = document.getElementById('taskDateTime');
 const notificationSound = document.getElementById('notificationSound');
 const deleteSound = document.getElementById('deleteSound');
-const editSound = document.getElementById('editSound'); 
+const editSound = document.getElementById('editSound');
+
+// Add event listener to auto-fill date and time
+taskInput.addEventListener('keydown', (event) => {
+    // Check if the input is empty and a character is being entered
+    if (taskDateTime.value === '' && event.key.length === 1) { 
+        const now = new Date();
+        taskDateTime.value = now.toISOString().slice(0, 16);
+    }
+});
 
 addTaskBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keyup', (event) => {
@@ -62,12 +71,11 @@ function toggleTaskCompletion(event) {
   taskSpan.classList.toggle('completed');
 }
 
-// Add event listener for Delete key press
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Delete') {
     const checkedTasks = document.querySelectorAll('#taskList li input[type="checkbox"]:checked');
     checkedTasks.forEach(task => {
-      deleteTask({ target: task.parentNode.querySelector('.delete-btn') }); // Simulate click on delete button
+      deleteTask({ target: task.parentNode.querySelector('.delete-btn') }); 
     });
   }
 });
