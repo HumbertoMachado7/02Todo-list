@@ -58,12 +58,43 @@ function deleteTask(event) {
 function editTask(event) {
   const taskItem = event.target.closest('li');
   const taskSpan = taskItem.querySelector('span');
-  const newTaskText = prompt('Edit Task:', taskSpan.textContent);
+  const dueDateSpan = taskItem.querySelector('.due-date');
 
-  if (newTaskText !== null) {
-    taskSpan.textContent = newTaskText.trim();
+  // Create an input field for editing the task
+  const taskInput = document.createElement('input');
+  taskInput.type = 'text';
+  taskInput.value = taskSpan.textContent;
+
+  // Create an input field for editing the date and time
+  const dateTimeInput = document.createElement('input');
+  dateTimeInput.type = 'datetime-local';
+  dateTimeInput.value = dueDateSpan.textContent;
+
+  // Replace the spans with the input fields
+  taskSpan.parentNode.replaceChild(taskInput, taskSpan);
+  dueDateSpan.parentNode.replaceChild(dateTimeInput, dueDateSpan);
+
+  // Focus on the task input for immediate editing
+  taskInput.focus();
+
+  // Event listener to update the task when the input field loses focus
+  taskInput.addEventListener('blur', function() {
+    const newTaskText = taskInput.value;
+    const newTaskSpan = document.createElement('span');
+    newTaskSpan.textContent = newTaskText;
+    taskInput.parentNode.replaceChild(newTaskSpan, taskInput);
+  });
+
+  // Event listener to update the date and time when the input field loses focus
+  dateTimeInput.addEventListener('blur', function() {
+    const newDueDate = dateTimeInput.value;
+    const newDueDateSpan = document.createElement('span');
+    newDueDateSpan.className = 'due-date';
+    newDueDateSpan.textContent = newDueDate;
+    dateTimeInput.parentNode.replaceChild(newDueDateSpan, dateTimeInput);
+
     editSound.play(); 
-  }
+  });
 }
 
 function toggleTaskCompletion(event) {
