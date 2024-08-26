@@ -8,8 +8,7 @@ const editSound = document.getElementById('editSound');
 
 // Add event listener to auto-fill date and time
 taskInput.addEventListener('keydown', (event) => {
-    // Check if the input is empty and a character is being entered
-    if (taskDateTime.value === '' && event.key.length === 1) { 
+    if (taskDateTime.value === '' && event.key.length === 1) {
         const now = new Date();
         taskDateTime.value = now.toISOString().slice(0, 16);
     }
@@ -42,7 +41,7 @@ function addTask() {
     taskDateTime.value = '';
 
     newTask.querySelector('.delete-btn').addEventListener('click', deleteTask);
-    newTask.querySelector('.edit-btn').addEventListener('click', editTask); 
+    newTask.querySelector('.edit-btn').addEventListener('click', editTask);
     newTask.querySelector('input[type="checkbox"]').addEventListener('change', toggleTaskCompletion);
 
     notificationSound.play();
@@ -50,8 +49,22 @@ function addTask() {
 }
 
 function deleteTask(event) {
-  const taskItem = event.target.closest('li');
-  taskList.removeChild(taskItem);
+  const allTasks = document.querySelectorAll('#taskList li');
+  let taskDeleted = false; 
+
+  allTasks.forEach(task => {
+    const checkbox = task.querySelector('input[type="checkbox"]');
+    if (checkbox.checked) {
+      taskList.removeChild(task);
+      taskDeleted = true;
+    }
+  });
+
+  if (!taskDeleted) {
+    const taskItem = event.target.closest('li');
+    taskList.removeChild(taskItem);
+  }
+
   deleteSound.play();
 }
 
@@ -60,24 +73,19 @@ function editTask(event) {
   const taskSpan = taskItem.querySelector('span');
   const dueDateSpan = taskItem.querySelector('.due-date');
 
-  // Create an input field for editing the task
   const taskInput = document.createElement('input');
   taskInput.type = 'text';
   taskInput.value = taskSpan.textContent;
 
-  // Create an input field for editing the date and time
   const dateTimeInput = document.createElement('input');
   dateTimeInput.type = 'datetime-local';
   dateTimeInput.value = dueDateSpan.textContent;
 
-  // Replace the spans with the input fields
   taskSpan.parentNode.replaceChild(taskInput, taskSpan);
   dueDateSpan.parentNode.replaceChild(dateTimeInput, dueDateSpan);
 
-  // Focus on the task input for immediate editing
   taskInput.focus();
 
-  // Event listener to update the task when the input field loses focus
   taskInput.addEventListener('blur', function() {
     const newTaskText = taskInput.value;
     const newTaskSpan = document.createElement('span');
@@ -85,7 +93,6 @@ function editTask(event) {
     taskInput.parentNode.replaceChild(newTaskSpan, taskInput);
   });
 
-  // Event listener to update the date and time when the input field loses focus
   dateTimeInput.addEventListener('blur', function() {
     const newDueDate = dateTimeInput.value;
     const newDueDateSpan = document.createElement('span');
@@ -105,8 +112,8 @@ function toggleTaskCompletion(event) {
 document.addEventListener('keydown', function(event) {
   if (event.key === 'Delete') {
     const checkedTasks = document.querySelectorAll('#taskList li input[type="checkbox"]:checked');
-    checkedTasks.forEach(task => {
-      deleteTask({ target: task.parentNode.querySelector('.delete-btn') }); 
-    });
+    if (checkedTasks.length > 0) {
+      deleteTask({});  
+    } 
   }
 });
